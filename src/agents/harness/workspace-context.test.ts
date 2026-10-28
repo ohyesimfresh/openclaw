@@ -128,6 +128,17 @@ it("selects the root instruction snapshot by source path before projecting it", 
     );
     expect(context.instructionSnapshot.instructions).not.toContain("Nested fixture rules.");
     expect(context.instructionSnapshot.instructions).not.toContain(instructions.path);
+    // The snapshot carries the root document; project context must not repeat it.
+    expect(context.promptContextFiles).toEqual(
+      scope === "full"
+        ? [
+            {
+              path: path.join(projectedWorkspace, "packages", "pkg", "AGENTS.md"),
+              content: "Nested fixture rules.",
+            },
+          ]
+        : [],
+    );
   }
 });
 
